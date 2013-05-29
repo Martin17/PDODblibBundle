@@ -1,5 +1,5 @@
 {
-    "name": "paptuc/pdodblib",
+    "name": "doctrine/pdodblib",
     "type": "library",
     "description": "Add PDODblib support to Doctrine",
     "keywords": ["pdodblib"],
@@ -7,4 +7,5 @@
     "require": {
         "php": ">=5.3.2"
     }
+     "target-dir": "Doctrine"
 }
