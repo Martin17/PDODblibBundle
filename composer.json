@@ -6,6 +6,6 @@
     "homepage": "https://github.com/trooney/PDODblibBundle",
     "require": {
         "php": ">=5.3.2"
-    }
+    },
      "target-dir": "Doctrine"
 }
