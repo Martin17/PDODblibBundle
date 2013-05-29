@@ -1,13 +1,10 @@
 {
-    "name": "trooney/pdodblibbundle",
+    "name": "paptuc/pdodblib",
     "type": "library",
     "description": "Add PDODblib support to Doctrine",
     "keywords": ["pdodblib"],
     "homepage": "https://github.com/trooney/PDODblibBundle",
     "require": {
         "php": ">=5.3.2"
-    },
-    "autoload": {
-        "psr-0": { "PDODblibBundle": "lib/" }
     }
 }
