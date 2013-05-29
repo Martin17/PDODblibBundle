@@ -1,4 +1,4 @@
-PDODblibBundle
+PDODblib
 --------------
 
 Doctrine 2 does support any method of connecting to SQL Server on a Linux box. Here's a simple driver that supports PDO DBlib. Many tests fail, but most are related to shortcomings of the PDODBlib driver. There is a patch in the PHP repo to add transaction and lastInsertId support, but this package has some minor work arounds.
@@ -20,27 +20,6 @@ DBLib requires FreeTDS. We can't go into detail about configuring FreeTDS, but t
     client charset = UTF-8
     text size = 20971520
 
-```
-
-Setting up bundle in Symfony
-============================
-
-In your Symfony2 project, modify your `config.yml` as follows to use the DBlib bundle and the server setup under FreeTDS:
-
-```yml
-# Doctrine Configuration
-doctrine:
-    dbal:
-        driver_class:   PDODblibBundle\Doctrine\DBAL\Driver\PDODblib\Driver
-        host:           mssql_freetds
-
-```
-
-And in your `autoload.php` register the new bundle:
-```php
-$loader->registerNamespaces(array(
-    'PDODblib'         => __DIR__ . '/../vendor/bundles',
-));
 ```
 
 Putting everything together
