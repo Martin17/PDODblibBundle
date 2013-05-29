@@ -9,6 +9,5 @@
     },
     "autoload": {
         "psr-0": { "Doctrine\\DBAL\\": "lib/" }
-    },
-     "target-dir": "lib"
+    }
 }
