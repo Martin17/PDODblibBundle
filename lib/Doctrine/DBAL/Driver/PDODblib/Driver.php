@@ -19,7 +19,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace PDODblibBundle\Doctrine\DBAL\Driver\PDODblib;
+namespace Doctrine\DBAL\Driver\PDODblib;
 
 /**
  * The PDO-based Dblib driver.
@@ -84,7 +84,7 @@ class Driver implements \Doctrine\DBAL\Driver {
 		}
 
 		if (class_exists('\\Doctrine\\DBAL\\Schema\\MsSqlSchemaManager')) {
-			return new \PDODblibBundle\Doctrine\DBAL\Schema\PDODblibSchemaManager($conn);
+			return new \Doctrine\DBAL\Schema\PDODblibSchemaManager($conn);
 		}
 
 
