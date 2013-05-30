@@ -1,5 +1,5 @@
 {
-    "name": "doctrine/pdodblib",
+    "name": "paptuc/pdodblib",
     "type": "library",
     "description": "Add PDODblib support to Doctrine",
     "keywords": ["pdodblib"],
