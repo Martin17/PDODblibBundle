@@ -9,7 +9,7 @@
         "php": ">=5.3.2"
     },
     "autoload": {
-        "psr-0": { "Doctrine\\DBAL\\": "" }
-    },,
-    "target-dir": "Doctrine/DBAL"
+        "psr-0": { "Paptuc\\DBAL\\": "" }
+    }
 }
+
