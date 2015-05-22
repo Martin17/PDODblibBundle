@@ -1,7 +1,7 @@
 {
     "name": "paptuc/pdodblib",
     "type": "library",
-    "description": "Add PDODblib support to Doctrine DBALß,
+    "description": "Add PDODblib support to Doctrine DBAL",
     "license":"CC-BY-NC-2.5",
     "keywords": ["pdodblib"],
     "homepage": "https://github.com/trooney/PDODblibBundle",
