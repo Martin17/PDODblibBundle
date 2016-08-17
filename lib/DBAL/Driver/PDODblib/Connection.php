@@ -20,18 +20,24 @@
  */
 
 namespace Paptuc\DBAL\Driver\PDODblib;
+use Doctrine\DBAL\Driver\PDOConnection;
+use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 
 /**
  * PDODblib Connection implementation.
  *
  * @since 2.0
  */
-class Connection extends \Doctrine\DBAL\Driver\PDOConnection implements \Doctrine\DBAL\Driver\Connection {
+class Connection extends PDOConnection implements \Doctrine\DBAL\Driver\Connection, ServerInfoAwareConnection {
 
 	protected $_pdoTransactionsSupport = null;
 	protected $_pdoLastInsertIdSupport = null;
+
 	/**
 	 * @override
+	 * @param string $value
+	 * @param int $type
+	 * @return string
 	 */
 	public function quote($value, $type = \PDO::PARAM_STR) {
 		$val = parent::quote($value, $type);
@@ -52,7 +58,7 @@ class Connection extends \Doctrine\DBAL\Driver\PDOConnection implements \Doctrin
 			return $this->_pdoTransactionsSupport;
 		}
 
-		$supported = false;
+		//$supported = false;
 		try {
 			$supported = true;
 			parent::beginTransaction();
@@ -107,7 +113,7 @@ class Connection extends \Doctrine\DBAL\Driver\PDOConnection implements \Doctrin
 			return $this->_pdoLastInsertIdSupport;
 		}
 
-		$supported = false;
+	//	$supported = false;
 		try {
 			$supported = true;
 			parent::lastInsertId();

@@ -87,6 +87,11 @@ class Driver implements \Doctrine\DBAL\Driver
         }
     }
 
+  /*  public function createDatabasePlatformForVersion($version)
+    {
+
+    }*/
+
     public function getSchemaManager(\Doctrine\DBAL\Connection $conn)
     {
         if (class_exists('\\Doctrine\\DBAL\\Schema\\SQLServerSchemaManager')) {
