@@ -21,6 +21,13 @@
 
 namespace Paptuc\DBAL\Driver\PDODblib;
 
+use Doctrine\DBAL\Platforms\SQLServer2005Platform;
+use Doctrine\DBAL\Platforms\SQLServer2008Platform;
+use Doctrine\DBAL\Platforms\SQLServer2012Platform;
+use Doctrine\DBAL\Platforms\SQLServerPlatform;
+use Doctrine\DBAL\Schema\SQLServerSchemaManager;
+use Paptuc\DBAL\Schema\PDODblibSchemaManager;
+
 /**
  * The PDO-based Dblib driver.
  *
@@ -67,39 +74,53 @@ class Driver implements \Doctrine\DBAL\Driver
         return $dsn;
     }
 
-    public function getDatabasePlatform()
+    /*
+        public function getDatabasePlatform()
+        {
+
+            if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2012Platform')) {
+                return new \Doctrine\DBAL\Platforms\SQLServer2012Platform();
+            }
+
+            if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2008Platform')) {
+                return new \Doctrine\DBAL\Platforms\SQLServer2008Platform();
+            }
+
+            if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2005Platform')) {
+                return new \Doctrine\DBAL\Platforms\SQLServer2005Platform();
+            }
+
+            if (class_exists('\\Doctrine\\DBAL\\Platforms\\MsSqlPlatform')) {
+                return new \Doctrine\DBAL\Platforms\MsSqlPlatform();
+            }
+        }*/
+
+    public function createDatabasePlatformForVersion($version)
     {
-
-        if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2012Platform')) {
-            return new \Doctrine\DBAL\Platforms\SQLServer2012Platform();
+        $versionSplit = explode(".", $version, 2);
+        $major = (int)$versionSplit[0];
+        if ($major < 9) {
+            return new SQLServerPlatform();
         }
-
-        if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2008Platform')) {
-            return new \Doctrine\DBAL\Platforms\SQLServer2008Platform();
+        if ($major == 9) {
+            return new SQLServer2005Platform();
         }
-
-        if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2005Platform')) {
-            return new \Doctrine\DBAL\Platforms\SQLServer2005Platform();
+        if ($major == 10) {
+            return new SQLServer2008Platform();
         }
-
-        if (class_exists('\\Doctrine\\DBAL\\Platforms\\MsSqlPlatform')) {
-            return new \Doctrine\DBAL\Platforms\MsSqlPlatform();
+        if ($major > 10) {
+            return new SQLServer2012Platform();
         }
     }
-
-  /*  public function createDatabasePlatformForVersion($version)
-    {
-
-    }*/
 
     public function getSchemaManager(\Doctrine\DBAL\Connection $conn)
     {
         if (class_exists('\\Doctrine\\DBAL\\Schema\\SQLServerSchemaManager')) {
-            return new \Doctrine\DBAL\Schema\SQLServerSchemaManager($conn);
+            return new SQLServerSchemaManager($conn);
         }
 
-        if (class_exists('\\Doctrine\\DBAL\\Schema\\MsSqlSchemaManager')) {
-            return new \Paptuc\DBAL\Schema\PDODblibSchemaManager($conn);
+        if (class_exists('\\Doctrine\\DBAL\\Schema\\PDODblibSchemaManager')) {
+            return new PDODblibSchemaManager($conn);
         }
 
 
@@ -110,7 +131,7 @@ class Driver implements \Doctrine\DBAL\Driver
         return 'pdo_dblib';
     }
 
-    public function getDatabase(\Doctrine\DBAL\Connection $conn)
+    public function getDatabase(Connection $conn)
     {
         $params = $conn->getParams();
         return $params['dbname'];

@@ -24,7 +24,7 @@ namespace Paptuc\DBAL\Schema;
  *
  * @since 2.0
  */
-class PDODblibSchemaManager extends \Doctrine\DBAL\Schema\MsSqlSchemaManager {
+class PDODblibSchemaManager extends MsSqlSchemaManager {
 
     /**
      * @override

@@ -140,4 +140,20 @@ class Connection extends PDOConnection implements \Doctrine\DBAL\Driver\Connecti
 		return $id;
 	}
 
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getServerVersion()
+	{
+		return $this->query("SELECT SERVERPROPERTY('productversion')")->fetchColumn();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function requiresQueryForServerVersion()
+	{
+		return true;
+	}
 }
