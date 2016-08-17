@@ -26,6 +26,7 @@ use Doctrine\DBAL\Platforms\SQLServer2008Platform;
 use Doctrine\DBAL\Platforms\SQLServer2012Platform;
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use Doctrine\DBAL\Schema\SQLServerSchemaManager;
+use Doctrine\DBAL\VersionAwarePlatformDriver;
 use Paptuc\DBAL\Schema\PDODblibSchemaManager;
 
 /**
@@ -33,7 +34,7 @@ use Paptuc\DBAL\Schema\PDODblibSchemaManager;
  *
  * @since 2.0
  */
-class Driver implements \Doctrine\DBAL\Driver
+class Driver implements \Doctrine\DBAL\Driver, VersionAwarePlatformDriver
 {
     public function connect(array $params, $username = null, $password = null, array $driverOptions = array())
     {
@@ -74,26 +75,25 @@ class Driver implements \Doctrine\DBAL\Driver
         return $dsn;
     }
 
-    /*
-        public function getDatabasePlatform()
-        {
+    public function getDatabasePlatform()
+    {
 
-            if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2012Platform')) {
-                return new \Doctrine\DBAL\Platforms\SQLServer2012Platform();
-            }
+        if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2012Platform')) {
+            return new SQLServer2012Platform();
+        }
 
-            if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2008Platform')) {
-                return new \Doctrine\DBAL\Platforms\SQLServer2008Platform();
-            }
+        if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2008Platform')) {
+            return new SQLServer2008Platform();
+        }
 
-            if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2005Platform')) {
-                return new \Doctrine\DBAL\Platforms\SQLServer2005Platform();
-            }
+        if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2005Platform')) {
+            return new SQLServer2005Platform();
+        }
 
-            if (class_exists('\\Doctrine\\DBAL\\Platforms\\MsSqlPlatform')) {
-                return new \Doctrine\DBAL\Platforms\MsSqlPlatform();
-            }
-        }*/
+        if (class_exists('\\Doctrine\\DBAL\\Platforms\\MsSqlPlatform')) {
+            return new MsSqlPlatform();
+        }
+    }
 
     public function createDatabasePlatformForVersion($version)
     {
@@ -131,7 +131,7 @@ class Driver implements \Doctrine\DBAL\Driver
         return 'pdo_dblib';
     }
 
-    public function getDatabase(Connection $conn)
+    public function getDatabase(\Doctrine\DBAL\Connection $conn)
     {
         $params = $conn->getParams();
         return $params['dbname'];
