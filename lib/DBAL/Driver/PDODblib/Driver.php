@@ -27,6 +27,7 @@ use Doctrine\DBAL\Platforms\SQLServer2012Platform;
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use Doctrine\DBAL\Schema\SQLServerSchemaManager;
 use Doctrine\DBAL\VersionAwarePlatformDriver;
+use Paptuc\DBAL\Platforms\MsSqlPlatform;
 use Paptuc\DBAL\Schema\PDODblibSchemaManager;
 
 /**
@@ -90,7 +91,10 @@ class Driver implements \Doctrine\DBAL\Driver, VersionAwarePlatformDriver
             return new SQLServer2005Platform();
         }
 
-        if (class_exists('\\Doctrine\\DBAL\\Platforms\\MsSqlPlatform')) {
+        if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServerPlatform')) {
+            return new SQLServerPlatform();
+        }
+        if (class_exists('\\Paptuc\\DBAL\\Platforms\\MsSqlPlatform')) {
             return new MsSqlPlatform();
         }
     }
