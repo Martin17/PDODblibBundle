@@ -26,7 +26,7 @@ namespace Paptuc\DBAL\Driver\PDODblib;
  *
  * @since 2.0
  */
-class Connection extends \Doctrine\DBAL\Driver\PDOConnection implements \Doctrine\DBAL\Driver\Connection {
+class Connection extends Doctrine\DBAL\Driver\PDOConnection implements \Doctrine\DBAL\Driver\Connection {
 
 	protected $_pdoTransactionsSupport = null;
 	protected $_pdoLastInsertIdSupport = null;
