@@ -17,7 +17,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Paptuc\DBAL\Schema;
+namespace OldPaptuc\DBAL\Schema;
 
 /**
  * The PDO-based Dblib schema manager.

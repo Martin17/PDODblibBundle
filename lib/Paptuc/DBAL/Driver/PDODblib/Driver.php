@@ -19,7 +19,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Paptuc\DBAL\Driver\PDODblib;
+namespace OldPaptuc\DBAL\Driver\PDODblib;
 
 /**
  * The PDO-based Dblib driver.
