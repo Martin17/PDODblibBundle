@@ -19,7 +19,13 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Paptuc\DBAL\Driver\PDODblib;
+namespace Paptuc\DBAL\Driver\PDOODBC;
+
+use Doctrine\DBAL\Platforms\MsSqlPlatform;
+use Doctrine\DBAL\Platforms\SQLServer2005Platform;
+use Doctrine\DBAL\Platforms\SQLServer2008Platform;
+use Paptuc\DBAL\Schema\PDODblibSchemaManager;
+use Paptuc\DBAL\Schema\SQLServerSchemaManager;
 
 /**
  * The PDO-based Dblib driver.
@@ -27,6 +33,10 @@ namespace Paptuc\DBAL\Driver\PDODblib;
  * @since 2.0
  */
 class Driver implements \Doctrine\DBAL\Driver {
+
+    /**
+     * {@inheritdoc}
+     */
     public function connect(array $params, $username = null, $password = null, array $driverOptions = array()) {
         return new Connection(
             $this->_constructPdoDsn($params),
@@ -42,62 +52,65 @@ class Driver implements \Doctrine\DBAL\Driver {
      * @return string  The DSN.
      */
     private function _constructPdoDsn(array $params) {
-        $dsn = 'dblib:host=';
-
+        $dsn = 'odbc:';
         if (isset($params['host'])) {
-            $dsn .= $params['host'];
+            $dsn .= 'Server=' . $params['host'] . (isset($params['port']) ? ','.$params['port'] : '') . ';';
         }
-
-        if (isset($params['port']) && !empty($params['port'])) {
-            $portSeparator = (PATH_SEPARATOR === ';') ? ',' : ':';
-            $dsn .= $portSeparator . $params['port'];
-        }
-
         if (isset($params['dbname'])) {
-            $dsn .= ';dbname=' . $params['dbname'];
+            $dsn .= 'Database=' . $params['dbname'] . ';';
         }
-
+        if (isset($params['driverOptions']['driver'])) {
+            $dsn .= 'Driver=' . $params['driverOptions']['driver'] . ';';
+        }
+        if (isset($params['driverOptions']['MARS_Connection'])) {
+            $dsn .= 'MARS_Connection=Yes;';
+        }
         if (isset($params['charset'])) {
-            $dsn .= ';charset=' . $params['charset'];
+            $dsn .= 'charset=' . $params['charset'] . ';';
         }
 
         return $dsn;
     }
 
     public function getDatabasePlatform() {
-        if (class_exists('\\Lsw\\DoctrinePdoDblib\\Doctrine\\Platforms\\SQLServer2008Platform')) {
+        if (class_exists('\\Paptuc\\Platforms\\SQLServer2008Platform')) {
             return new \Paptuc\Platforms\SQLServer2008Platform();
         }
-        
+
         if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2008Platform')) {
-            return new \Doctrine\DBAL\Platforms\SQLServer2008Platform();
+            return new SQLServer2008Platform();
         }
 
         if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2005Platform')) {
-            return new \Doctrine\DBAL\Platforms\SQLServer2005Platform();
+            return new SQLServer2005Platform();
         }
-        
+
+        if (class_exists('\\Paptuc\\Platforms\\MsSqlPlatform')) {
+            return new \Paptuc\Platforms\MsSqlPlatform();
+        }
+
         if (class_exists('\\Doctrine\\DBAL\\Platforms\\MsSqlPlatform')) {
-            return new \Doctrine\DBAL\Platforms\MsSqlPlatform();
+            return new MsSqlPlatform();
         }
     }
 
     public function getSchemaManager(\Doctrine\DBAL\Connection $conn) {
         if (class_exists('\\Doctrine\\DBAL\\Schema\\SQLServerSchemaManager')) {
-            return new \Paptuc\DBAL\Schema\SQLServerSchemaManager($conn);
+            return new SQLServerSchemaManager($conn);
         }
 
         if (class_exists('\\Doctrine\\DBAL\\Schema\\MsSqlSchemaManager')) {
-            return new \Paptuc\DBAL\Schema\PDODblibSchemaManager($conn);
+            return new PDODblibSchemaManager($conn);
         }
     }
 
     public function getName() {
-        return 'pdo_dblib';
+        return 'pdo_odbc';
     }
 
     public function getDatabase(\Doctrine\DBAL\Connection $conn) {
         $params = $conn->getParams();
+
         return $params['dbname'];
     }
 }

@@ -17,7 +17,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace OldPaptuc\DBAL\Schema;
+namespace Paptuc\DBAL\Schema;
 
 /**
  * The PDO-based Dblib schema manager.
@@ -27,14 +27,22 @@ namespace OldPaptuc\DBAL\Schema;
 class PDODblibSchemaManager extends \Doctrine\DBAL\Schema\MsSqlSchemaManager {
 
     /**
-     * @override
+     * {@inheritdoc}
      */
     protected function _getPortableTableColumnDefinition($tableColumn) {
         // ensure upper case keys are there too...
         foreach ($tableColumn as $key => $value) {
             $tableColumn[strtoupper($key)] = $value;
         }
+
+        // ensure NVARCHAR(MAX) converts to TEXT type
+        $dbType = strtok($tableColumn['type'], '(), ');
+        $length = (int) $tableColumn['length'];
+
+        if ($dbType == 'nvarchar' && $length == -1) {
+            $tableColumn['type'] = 'text';
+        }
+
         return parent::_getPortableTableColumnDefinition($tableColumn);
     }
-
 }
