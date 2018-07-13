@@ -25,7 +25,7 @@
         "doctrine/dbal": ">=2.1.0"
     },
     "autoload": {
-        "psr-0": { "Paptuc2\\": "lib/" }
+        "psr-0": { "Paptuc\\": "lib/" }
     },
     "extra": {
         "branch-alias": {
