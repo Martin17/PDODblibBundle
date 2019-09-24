@@ -139,7 +139,7 @@ class BaseConnection extends \Doctrine\DBAL\Driver\PDOConnection implements \Doc
     protected static function pdoException(\PDOException $exception)
     {
         if (class_exists('Doctrine\DBAL\Driver\PDOException')) {
-            throw new Doctrine\DBAL\Driver\PDOException($exception);
+            throw new \Doctrine\DBAL\Driver\PDOException($exception);
         }
 
         throw $exception;
