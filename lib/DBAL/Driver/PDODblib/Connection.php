@@ -28,7 +28,7 @@ use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
  *
  * @since 2.0
  */
-class Connection extends PDOConnection implements \Doctrine\DBAL\Driver\Connection, ServerInfoAwareConnection {
+class Connection extends PDOConnection{
 
 	protected $_pdoTransactionsSupport = null;
 	protected $_pdoLastInsertIdSupport = null;
