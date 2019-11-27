@@ -78,7 +78,8 @@ class Driver implements \Doctrine\DBAL\Driver, VersionAwarePlatformDriver
 
     public function getDatabasePlatform()
     {
-
+        return new MsSqlPlatform();
+/*
         if (class_exists('\\Doctrine\\DBAL\\Platforms\\SQLServer2012Platform')) {
             return new SQLServer2012Platform();
         }
@@ -96,7 +97,7 @@ class Driver implements \Doctrine\DBAL\Driver, VersionAwarePlatformDriver
         }
         if (class_exists('\\Paptuc\\DBAL\\Platforms\\MsSqlPlatform')) {
             return new MsSqlPlatform();
-        }
+        }*/
     }
 
     public function createDatabasePlatformForVersion($version)
