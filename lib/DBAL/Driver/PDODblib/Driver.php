@@ -69,10 +69,10 @@ class Driver implements \Doctrine\DBAL\Driver, VersionAwarePlatformDriver
         if (isset($params['dbname'])) {
             $dsn .= ';dbname=' . $params['dbname'];
         }
-/*
+
         if (isset($params['charset'])) {
             $dsn .= ';charset=' . $params['charset'];
-        }*/
+        }
         return $dsn;
     }
 
