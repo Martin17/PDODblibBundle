@@ -61,8 +61,8 @@ class BaseConnection extends \Doctrine\DBAL\Driver\PDOConnection implements \Doc
         if ($supported) {
             parent::commit();
         }
-
-        return $this->_pdoTransactionsSupport = $supported;
+        return false;
+     //   return $this->_pdoTransactionsSupport = $supported;
     }
 
     /**
